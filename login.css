@@ -1,0 +1,24 @@
+body {
+    background-color: #e9eef3;
+}
+
+#app {
+    display: flex;
+    height: 100vh;
+}
+
+.el-card.is-always-shadow,
+.el-card.is-hover-shadow:focus,
+.el-card.is-hover-shadow:hover {
+    margin: auto;
+    align-items: center;
+}
+
+.el-page-header {
+    margin-bottom: 20px;
+}
+
+
+.box-card {
+    width: 480px;
+}
