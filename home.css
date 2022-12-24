@@ -1,17 +1,28 @@
-.el-aside {
-    background-color: #D3DCE6;
-    color: #333;
-    text-align: center;
-    line-height: 200px;
-}
-
+/* 基础全局设置main位置样式 start */
+.el-aside,
 .el-main {
     background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-    line-height: 160px;
 }
 
 .el-container {
     height: 100vh;
 }
+
+/* 基础全局设置main位置样式 end */
+
+
+/* 系统首页设置样式 start */
+.el-carousel__button {
+    height: 5px !important;
+}
+
+.el-carousel__container {
+    margin: 10px;
+    height: 90vh !important;
+}
+
+.el-carousel__indicator--horizontal {
+    height: 20px;
+}
+
+/* 系统首页设置样式 end */

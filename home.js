@@ -6,8 +6,15 @@ new Vue({
             loginUser: sessionStorage.getItem("uname"),
             // 用户名调用位置 end
             // 页面导航定位 start
-            windowIde: "1"
+            windowIde: "1",
             // 页面导航定位 end
+            imgUrl: [
+                "./images/1.jpg",
+                "./images/2.jpg",
+                "./images/3.jpg",
+                "./images/4.jpg",
+                "./images/5.jpg"
+            ]
         }
     },
     methods: {
