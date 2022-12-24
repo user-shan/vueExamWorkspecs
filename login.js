@@ -22,6 +22,7 @@ new Vue({
         }
     },
     methods: {
+        // 点击切换窗口 start
         goLogon() {
             let that = this;
             that.locPage = '1';
@@ -32,49 +33,56 @@ new Vue({
             that.locPage = '0';
             document.title = '登录';
         },
+        // 点击切换窗口 end
+        // 注册点击事件 start
         resubmitForm(formName) {
             let that = this;
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    sessionStorage.setItem("uname", that.ruleForm.name);
-                    sessionStorage.setItem("upassword", that.ruleForm.password);
-                    that.locPage = '0';
-                    document.title = '登录';
+                    if (that.ruleForm.repassword == that.ruleForm.password) {
+                        sessionStorage.setItem("uname", that.ruleForm.name);
+                        sessionStorage.setItem("upassword", that.ruleForm.password);
+                        that.locPage = '0';
+                        document.title = '登录';
+                    } else {
+                        alert("请确保两次密码相同");
+                    }
                 } else {
                     return false;
                 }
             });
         },
+        // 注册点击事件 end
+        // 登录点击事件 start
         submitForm(formName) {
             let that = this;
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    if (that.ruleForm.password == that.ruleForm.repassword) {
-                        let uname = sessionStorage.getItem("uname");
-                        let upassword = sessionStorage.getItem("upassword");
-                        if (uname == '' || uname == ' ' || uname == null ||
-                            upassword == '' || upassword == ' ' || upassword == null) {
-                            alert('无账号');
-                        } else {
-                            alert('登录');
-                        }
-                        // window.location.href = "./home.html";
+                    if (that.ruleForm.password ==
+                        sessionStorage.getItem("upassword") &&
+                        that.ruleForm.name ==
+                        sessionStorage.getItem("uname")) {
+                        window.location.href = "./home.html";
                     } else {
-                        console.log('NO');
+                        alert('账号或密码错误');
                         return false;
                     }
                 } else {
-                    console.log('NO');
                     return false;
                 }
             });
         },
+        // 登录点击事件 end
+        // 重置按钮 start
         resetForm(formName) {
             this.$refs[formName].resetFields();
         }
+        // 重置按钮 end
     },
     beforeCreate() {
+        // 初始化session start
         sessionStorage.removeItem("uname");
         sessionStorage.removeItem("upassword");
+        // 初始化session end
     }
 })
