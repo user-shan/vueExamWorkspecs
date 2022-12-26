@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body,
+        html,
+        #container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+    </style>
+    <script type="text/javascript"
+        src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=UY607Rv3yQPpAXIFRHWHuyk2CV4Hqgj0"></script>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script>
+        function init() {
+            createMap();
+            setMapEvent();
+            addMapControl();
+        }
+        function createMap() {
+            var map = new BMapGL.Map("container");
+            var point = new BMapGL.Point(121.529937, 38.867486);
+            map.centerAndZoom(point, 15);
+            window.map = map;
+        }
+        function setMapEvent() {
+            map.enableScrollWheelZoom(true);
+        }
+        function addMapControl() {
+            var scaleCtrl = new BMapGL.ScaleControl();
+            map.addControl(scaleCtrl);
+            var zoomCtrl = new BMapGL.ZoomControl();
+            map.addControl(zoomCtrl);
+        }
+        init();
+    </script>
+</body>
+
+</html>

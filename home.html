@@ -68,7 +68,7 @@
                         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                         <el-breadcrumb-item><a href="#">系统首页</a></el-breadcrumb-item>
                     </el-breadcrumb>
-                    <div class="block">
+                    <div class="margTen">
                         <el-carousel trigger="click" height="150px">
                             <el-carousel-item v-for="item in imgUrl" :key="item">
                                 <img :src="item" style="width: 100%; height: 100%;" />
@@ -84,36 +84,89 @@
                         <el-breadcrumb-item><a href="#">用户列表</a></el-breadcrumb-item>
                     </el-breadcrumb>2
                 </div>
+
+                <!-- 修改密码 start -->
                 <div v-else-if="windowIde=='2-2'">
                     <el-breadcrumb separator="/">
                         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                         <el-breadcrumb-item><a href="#">修改密码</a></el-breadcrumb-item>
-                    </el-breadcrumb>3
+                    </el-breadcrumb>
+                    <div class="margTen">
+                        <div class="setfle">
+                            <el-card class="box-card">
+                                <el-form :model="xgmmRuleForm" :rules="xgmmRules" ref="xgmmRuleForm" label-width="100px"
+                                    class="demo-ruleForm">
+                                    <el-form-item label="账号：" prop="name">
+                                        <el-input v-model="xgmmRuleForm.name" disabled></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="原密码：" prop="password">
+                                        <el-input v-model="xgmmRuleForm.password" show-password clearable></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="新密码：" prop="newpassword">
+                                        <el-input v-model="xgmmRuleForm.newpassword" show-password clearable></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="确认密码：" prop="repassword">
+                                        <el-input v-model="xgmmRuleForm.repassword" show-password clearable></el-input>
+                                    </el-form-item>
+                                    <el-form-item>
+                                        <el-button type="primary" @click="submitForm('xgmmRuleForm')">更新密码</el-button>
+                                        <el-button @click="resetForm('xgmmRuleForm')">重置</el-button>
+                                    </el-form-item>
+                                </el-form>
+                            </el-card>
+                        </div>
+                    </div>
                 </div>
+                <!-- 修改密码 end -->
+
+                <!-- 用户信息 start -->
                 <div v-else-if="windowIde=='2-3'">
                     <el-breadcrumb separator="/">
                         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                         <el-breadcrumb-item><a href="#">用户信息</a></el-breadcrumb-item>
-                    </el-breadcrumb>4
+                    </el-breadcrumb>
                 </div>
+                <!-- 用户信息 start -->
+
+                <!-- 商品管理 start -->
                 <div v-else-if="windowIde=='3'">
                     <el-breadcrumb separator="/">
                         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                         <el-breadcrumb-item><a href="#">商品管理</a></el-breadcrumb-item>
-                    </el-breadcrumb>5
+                    </el-breadcrumb>
+                    <div class="margTen">
+                        5
+                    </div>
                 </div>
+                <!-- 商品管理 end -->
+
+                <!-- 数据分析 start -->
                 <div v-else-if="windowIde=='4'">
                     <el-breadcrumb separator="/">
                         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                         <el-breadcrumb-item><a href="#">数据分析</a></el-breadcrumb-item>
-                    </el-breadcrumb>6
+                    </el-breadcrumb>
+                    <div class="margTen">
+                        6
+                    </div>
                 </div>
+                <!-- 数据分析 end -->
+
+                <!-- 地图位置 start -->
                 <div v-else-if="windowIde=='5'">
                     <el-breadcrumb separator="/">
                         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                         <el-breadcrumb-item><a href="#">地图位置</a></el-breadcrumb-item>
-                    </el-breadcrumb>7
+                    </el-breadcrumb>
+                    <div class="margTen">
+                        <div class="setfle">
+                            <iframe id="baiduMap" src="./bdMap.html" width="100%" height="600vh"
+                                scrolling="No"></iframe>
+                        </div>
+                    </div>
                 </div>
+                <!-- 地图位置 end -->
+
                 <div v-else>页面错误</div>
             </el-main>
         </el-container>

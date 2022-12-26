@@ -78,11 +78,5 @@ new Vue({
             this.$refs[formName].resetFields();
         }
         // 重置按钮 end
-    },
-    beforeCreate() {
-        // 初始化session start
-        sessionStorage.removeItem("uname");
-        sessionStorage.removeItem("upassword");
-        // 初始化session end
     }
 })
