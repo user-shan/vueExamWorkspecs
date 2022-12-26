@@ -48,9 +48,29 @@
     align-items: center;
 }
 
-.el-card.is-always-shadow,
-.el-card.is-hover-shadow:focus,
-.el-card.is-hover-shadow:hover {
+.setwid {
     width: 40%;
     margin: auto;
+}
+
+.el-header {
+    background-color: #0c58f0;
+}
+
+.el-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.el-link.el-link--default {
+    color: #fff;
+}
+
+.box-card {
+    margin-top: 10px;
+}
+
+.el-row {
+    margin-bottom: 10px;
 }
