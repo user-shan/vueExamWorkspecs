@@ -12,6 +12,9 @@
     <script src="./lib/vue-2.6.12.js"> </script>
     <script src="./lib/elementui.js"> </script>
     <script src="./lib/dayjs.min.js"></script>
+    <script src="./lib/echarts.js"></script>
+    <script src="./lib/shine.js"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
     <title>首页</title>
 </head>
 
@@ -52,7 +55,7 @@
                         <i class="el-icon-suitcase-1"></i>
                         <span slot="title">商品管理</span>
                     </el-menu-item>
-                    <el-menu-item index="4" @click="handleClick">
+                    <el-menu-item index="4" @click="handleClick" onclick="openecrt()">
                         <i class="el-icon-edit-outline"></i>
                         <span slot="title">数据分析</span>
                     </el-menu-item>
@@ -88,53 +91,53 @@
                         <el-card class="box-card">
                             <el-row>
                                 <el-col :span="6">
-                                    <el-input placeholder="请输入姓名 0/10" v-model="addGood.addname" size="mini">
+                                    <el-input placeholder="请输入姓名 0/10" v-model="addGoods.addname" size="mini">
                                         <template slot="prepend">名字</template>
                                     </el-input>
                                 </el-col>
                                 <el-col :span="6" :offset="1">
-                                    <el-input placeholder="请输入内容" v-model="addGood.addfort" size="mini">
+                                    <el-input placeholder="请输入内容" v-model="addGoods.addfort" size="mini">
                                         <template slot="prepend">部门</template>
                                     </el-input>
                                 </el-col>
                                 <el-col :span="6" :offset="1">
-                                    <el-input placeholder="请输入年龄" v-model="addGood.addage" size="mini">
+                                    <el-input placeholder="请输入年龄" v-model="addGoods.addage" size="mini">
                                         <template slot="prepend">年龄</template>
                                     </el-input>
                                 </el-col>
                             </el-row>
                             <el-row>
                                 <el-col :span="4">
-                                    <el-button type="primary" size="mini" @click="add()">添加</el-button>
+                                    <el-button type="primary" size="mini" @click="adds()">添加</el-button>
                                 </el-col>
                                 <el-col :span="4" :offset="1">
-                                    <el-button type="primary" size="mini" @click="clearinput()">清空</el-button>
+                                    <el-button type="primary" size="mini" @click="clearinputs()">清空</el-button>
                                 </el-col>
                             </el-row>
                             <el-row>
-                                <el-table :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)" border
-                                    style="width: 100%">
+                                <el-table :data="lists.slice((currentPagesss-1)*pagesizess,currentPage*pagesizess)"
+                                    border style="width: 100%">
                                     <el-table-column prop="id" label="#" width="60">
                                         <template slot-scope="scope">
                                             {{scope.row.id}}
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="code" label="姓名" width="100">
+                                    <el-table-column prop="name" label="姓名" width="100">
                                         <template slot-scope="scope">
                                             {{scope.row.name}}
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="brand" label="年龄">
+                                    <el-table-column prop="age" label="年龄">
                                         <template slot-scope="scope">
                                             {{scope.row.age}}
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="birth" label="性别" width="180">
+                                    <el-table-column prop="sex" label="性别" width="180">
                                         <template slot-scope="scope">
                                             {{scope.row.sex}}
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="purchase" label="部门" width="180">
+                                    <el-table-column prop="fort" label="部门" width="180">
                                         <template slot-scope="scope">
                                             {{scope.row.fort}}
                                         </template>
@@ -142,9 +145,9 @@
                                     <el-table-column label="操作">
                                         <template slot-scope="scope">
                                             <el-button type="primary" size="mini"
-                                                @click="edit(scope.row,scope.row.id)">修改</el-button>
+                                                @click="edits(scope.row,scope.row.id)">修改</el-button>
                                             <el-button type="danger" size="mini"
-                                                @click="del(scope.row.id)">删除</el-button>
+                                                @click="dels(scope.row.id)">删除</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -152,33 +155,33 @@
                             <!-- 分页 -->
                             <div class="block">
                                 <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                                    :current-page="currentPage" :page-sizes="pagesizes" :page-size="pagesize"
+                                    :current-page="currentPagesss" :page-sizes="pagesizesss" :page-size="pagesizess"
                                     layout="total, sizes, prev, pager, next, jumper" :total="list.length">
                                 </el-pagination>
                             </div>
 
                             <!-- 修改dialog -->
-                            <el-dialog title="修改账号" :visible.sync="dialogFormVisible">
-                                <el-form :model="editGood">
+                            <el-dialog title="修改账号" :visible.sync="dialogFormVisibles">
+                                <el-form :model="editGoods">
                                     <el-form-item label="卡号" :label-width="formLabelWidth">
-                                        <el-input v-model="editGood.id" autocomplete="off" disabled></el-input>
+                                        <el-input v-model="editGoods.id" autocomplete="off" disabled></el-input>
                                     </el-form-item>
                                     <el-form-item label="姓名" :label-width="formLabelWidth">
-                                        <el-input v-model="editGood.ediname" autocomplete="off"></el-input>
+                                        <el-input v-model="editGoods.ediname" autocomplete="off"></el-input>
                                     </el-form-item>
                                     <el-form-item label="年龄" :label-width="formLabelWidth">
-                                        <el-input v-model="editGood.ediage" autocomplete="off"></el-input>
+                                        <el-input v-model="editGoods.ediage" autocomplete="off"></el-input>
                                     </el-form-item>
                                     <el-form-item label="性别" :label-width="formLabelWidth">
-                                        <el-input v-model="editGood.edisex" autocomplete="off"></el-input>
+                                        <el-input v-model="editGoods.edisex" autocomplete="off"></el-input>
                                     </el-form-item>
                                     <el-form-item label="部门" :label-width="formLabelWidth">
-                                        <el-input v-model="editGood.edifort" autocomplete="off"></el-input>
+                                        <el-input v-model="editGoods.edifort" autocomplete="off"></el-input>
                                     </el-form-item>
                                 </el-form>
                                 <div slot="footer" class="dialog-footer">
-                                    <el-button @click="dialogFormVisible = false">取 消</el-button>
-                                    <el-button type="primary" @click="editDo()">确 定</el-button>
+                                    <el-button @click="dialogFormVisibles = false">取 消</el-button>
+                                    <el-button type="primary" @click="editDos()">确 定</el-button>
                                 </div>
                             </el-dialog>
                         </el-card>
@@ -225,6 +228,37 @@
                         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                         <el-breadcrumb-item><a href="#">用户信息</a></el-breadcrumb-item>
                     </el-breadcrumb>
+                    <div class="margTen">
+                        <div class="setfle">
+                            <el-card class="box-card setwid">
+                                <h3 style="margin: 20px;">用户信息</h3>
+                                <span style="margin-left: 20px; width: 150px; display: inline-block;">账号:</span>
+                                <span style="margin-left: 100px;">{{yhxx.yhxxName}}</span>
+                                <el-divider></el-divider>
+                                <span style="margin-left: 20px; width: 150px; display: inline-block;">邮箱:</span>
+                                <span v-if="showXg" style="margin-left: 100px;">{{yhxx.yhxxEmal}}</span>
+                                <el-input v-else style="width: 50%;" v-model="yhxx.yhxxEmal"
+                                    placeholder="请输入内容"></el-input>
+                                <el-divider></el-divider>
+                                <span style="margin-left: 20px; width: 150px; display: inline-block;">电话:</span>
+                                <span v-if="showXg" style="margin-left: 100px;">{{yhxx.yhxxTel}}</span>
+                                <el-input v-else style="width: 50%;" v-model="yhxx.yhxxTel"
+                                    placeholder="请输入内容"></el-input>
+                                <el-divider></el-divider>
+                                <span style="margin-left: 20px; width: 150px; display: inline-block;">创建时间:</span>
+                                <span style="margin-left: 100px;">{{yhxx.yhxxCreTim | dateformate}}</span>
+                                <el-divider></el-divider>
+                                <span style="margin-left: 20px; width: 150px; display: inline-block;">上次登录时间:</span>
+                                <span style="margin-left: 100px;">{{yhxx.yhxxLoTim | dateformate}}</span>
+                                <el-divider></el-divider>
+                                <span style="margin-left: 20px; width: 150px; display: inline-block;">上次登录IP:</span>
+                                <span style="margin-left: 100px;">{{yhxx.yhxxLoip}}</span>
+                                <el-divider></el-divider>
+                                <el-button v-if="showXg" type="warning" @click="crePeo">修改个人信息</el-button>
+                                <el-button v-else type="warning" @click="savPeo">保存</el-button>
+                            </el-card>
+                        </div>
+                    </div>
                 </div>
                 <!-- 用户信息 start -->
 
@@ -235,7 +269,125 @@
                         <el-breadcrumb-item><a href="#">商品管理</a></el-breadcrumb-item>
                     </el-breadcrumb>
                     <div class="margTen">
-                        5
+                        <el-card class="box-card">
+                            <el-row>
+                                <el-col :span="6">
+                                    <el-input placeholder="请输入内容" v-model="addGood.code" size="mini">
+                                        <template slot="prepend">商品编号</template>
+                                    </el-input>
+                                </el-col>
+                                <el-col :span="6" :offset="1">
+                                    <el-input placeholder="请输入内容" v-model="addGood.brand" size="mini">
+                                        <template slot="prepend">商品名称</template>
+                                    </el-input>
+                                </el-col>
+                                <el-col :span="6" :offset="1">
+                                    <el-input placeholder="请输入内容" v-model="addGood.price" size="mini">
+                                        <template slot="prepend">商品价格</template>
+                                    </el-input>
+                                </el-col>
+                                <el-col :span="5" :offset="1">
+                                    <el-date-picker v-model="addGood.birth" type="datetime" placeholder="选择生产日期"
+                                        size="mini">
+                                    </el-date-picker>
+                                </el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="4">
+                                    <el-button type="primary" size="mini" @click="add()">添加</el-button>
+                                </el-col>
+                                <el-col :span="4" :offset="1">
+                                    <el-button type="primary" size="mini" @click="clearinput()">清空</el-button>
+                                </el-col>
+                            </el-row>
+                            <el-row>
+                                <el-table :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)" border
+                                    style="width: 100%">
+                                    <el-table-column prop="id" label="序号" width="60">
+                                        <template slot-scope="scope">
+                                            {{scope.row.id}}
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="code" label="商品编码" width="100">
+                                        <template slot-scope="scope">
+                                            {{scope.row.code}}
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="brand" label="商品名称">
+                                        <template slot-scope="scope">
+                                            {{scope.row.brand}}
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="price" label="商品价格">
+                                        <template slot-scope="scope">
+                                            {{scope.row.price|numfix1}}
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="num" label="商品数量" width="180">
+                                        <template slot-scope="scope">
+                                            <el-input-number size="mini" :min="0"
+                                                v-model="scope.row.num"></el-input-number>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="birth" label="生产日期" width="180">
+                                        <template slot-scope="scope">
+                                            {{scope.row.birth|dateformat}}
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="purchase" label="购买日期" width="180">
+                                        <template slot-scope="scope">
+                                            {{scope.row.purchase|dateformat}}
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="操作">
+                                        <template slot-scope="scope">
+                                            <el-button type="primary" size="mini"
+                                                @click="edit(scope.row,scope.row.id)">修改</el-button>
+                                            <el-button type="danger" size="mini"
+                                                @click="del(scope.row.id)">删除</el-button>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="4">总价：{{totalPrice|numfix1}}</el-col>
+                                <el-col :span="4" :offset="4">商品数量：{{totalCount}}</el-col>
+                            </el-row>
+                            <!-- 分页 -->
+                            <div class="block">
+                                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                                    :current-page="currentPage" :page-sizes="pagesizes" :page-size="pagesize"
+                                    layout="total, sizes, prev, pager, next, jumper" :total="list.length">
+                                </el-pagination>
+                            </div>
+
+                            <!-- 修改dialog -->
+                            <el-dialog title="修改商品" :visible.sync="dialogFormVisible">
+                                <el-form :model="editGood">
+                                    <el-form-item label="商品序号" :label-width="formLabelWidth">
+                                        <el-input v-model="editGood.id" autocomplete="off" disabled></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="商品编号" :label-width="formLabelWidth">
+                                        <el-input v-model="editGood.code" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="商品名称" :label-width="formLabelWidth">
+                                        <el-input v-model="editGood.brand" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="商品价格" :label-width="formLabelWidth">
+                                        <el-input v-model="editGood.price" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="生产日期" :label-width="formLabelWidth">
+                                        <el-date-picker v-model="editGood.birth" type="datetime" placeholder="选择生产日期"
+                                            size="mini">
+                                        </el-date-picker>
+                                    </el-form-item>
+                                </el-form>
+                                <div slot="footer" class="dialog-footer">
+                                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                                    <el-button type="primary" @click="editDo()">确 定</el-button>
+                                </div>
+                            </el-dialog>
+                        </el-card>
                     </div>
                 </div>
                 <!-- 商品管理 end -->
@@ -247,7 +399,10 @@
                         <el-breadcrumb-item><a href="#">数据分析</a></el-breadcrumb-item>
                     </el-breadcrumb>
                     <div class="margTen">
-                        6
+                        <el-card class="box-card">
+                            <div id="myChart1" class="setflole" style="width: 480px;height: 420px;"></div>
+                            <div id="myChart2" class="setflori" style="width: 480px;height: 420px;"></div>
+                        </el-card>
                     </div>
                 </div>
                 <!-- 数据分析 end -->

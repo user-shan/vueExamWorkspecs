@@ -18,7 +18,8 @@ new Vue({
                 repassword: [
                     { required: true, message: '请再次输入密码', trigger: 'blur' }
                 ]
-            }
+            },
+            goTime: new Date()
         }
     },
     methods: {
@@ -37,6 +38,8 @@ new Vue({
         // 注册点击事件 start
         resubmitForm(formName) {
             let that = this;
+            sessionStorage.removeItem("onDate");
+            sessionStorage.setItem("onDate", that.goTime);
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     if (that.ruleForm.repassword == that.ruleForm.password) {
@@ -56,6 +59,8 @@ new Vue({
         // 登录点击事件 start
         submitForm(formName) {
             let that = this;
+            sessionStorage.removeItem("uDate");
+            sessionStorage.setItem("uDate", that.goTime);
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     if (that.ruleForm.password ==
